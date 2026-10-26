@@ -75,23 +75,23 @@ go_vibe/
 │   ├── utils/              # Helper utility (JWT Generator & Validator)
 │   │   ├── jwt.go
 │   │   └── jwt_test.go
+│   ├── frontend/           # Aset antarmuka pengguna web
+│   │   ├── css/
+│   │   │   └── style.css   # Desain antarmuka & stylesheet responsif
+│   │   ├── js/
+│   │   │   ├── api.js      # API client fetch wrapper & manajemen token auth
+│   │   │   ├── dashboard.js    # Logika ringkasan finansial & diagram alokasi
+│   │   │   └── transactions.js # Logika manajemen data, pencarian, & filter
+│   │   ├── dashboard.html  # Halaman dashboard keuangan
+│   │   ├── index.html      # Router gerbang (auto-redirect)
+│   │   ├── login.html      # Halaman masuk akun
+│   │   ├── register.html   # Halaman pendaftaran akun baru
+│   │   └── transactions.html # Halaman daftar transaksi lengkap
 │   ├── .env.example        # Template konfigurasi environment backend
 │   ├── .gitignore
 │   ├── go.mod
 │   ├── go.sum
 │   └── main.go             # Titik masuk utama aplikasi (entry point)
-├── frontend/
-│   ├── css/
-│   │   └── style.css       # Desain antarmuka & stylesheet responsif
-│   ├── js/
-│   │   ├── api.js          # API client fetch wrapper & manajemen token auth
-│   │   ├── dashboard.js    # Logika tampilan ringkasan finansial & diagram alokasi
-│   │   └── transactions.js # Logika manajemen data, pencarian, dan filter transaksi
-│   ├── dashboard.html      # Halaman dashboard keuangan
-│   ├── index.html          # Router gerbang (auto-redirect)
-│   ├── login.html          # Halaman masuk akun
-│   ├── register.html       # Halaman pendaftaran akun baru
-│   └── transactions.html   # Halaman daftar & manajemen transaksi lengkap
 ├── docs/
 │   └── prompts/
 │       └── 00-project-spec.md  # Dokumen spesifikasi kebutuhan proyek
@@ -150,7 +150,7 @@ go run backend/main.go
 Ketika server berhasil berjalan, Anda akan melihat log seperti berikut di terminal:
 ```text
 Koneksi database PostgreSQL berhasil dihubungkan dan migrasi skema tabel selesai.
-Menyajikan file statis frontend dari: /path/to/go_vibe/frontend
+Menyajikan file statis frontend dari: /path/to/go_vibe/backend/frontend
 Server Cuan't berjalan di port 8080 (http://localhost:8080)
 ```
 

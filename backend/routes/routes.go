@@ -14,8 +14,9 @@ import (
 // Helper to find the frontend directory regardless of working directory
 func findFrontendDir() string {
 	candidates := []string{
-		"../frontend",
 		"./frontend",
+		"./backend/frontend",
+		"../frontend",
 		"../../frontend",
 	}
 
