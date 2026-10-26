@@ -22,7 +22,7 @@ func main() {
 	config.ConnectDB()
 
 	// Configure application port
-	port := os.Getenv("APP_PORT")
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
