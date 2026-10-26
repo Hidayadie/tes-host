@@ -7,33 +7,31 @@
 ## 1. Informasi Aplikasi
 
 **Nama aplikasi:**  
-`[Isi nama aplikasi]`
+`[Cuan't]`
 
 **Deskripsi aplikasi:**  
-`[Jelaskan tujuan aplikasi dalam 1–3 kalimat]`
+`[Aplikasi web untuk mencatat dan mengelola keuangan pribadi. Aplikasi ini menyediakan ringkasan pengeluaran dan pemasukan sehingga user dapat memahami kebiasaan finansial mereka]`
 
 **Target pengguna:**  
-`[Siapa yang akan menggunakan aplikasi?]`
+`[Pelajar, mahasiswa dan individu yang ingin mencatat keuangan mereka]`
 
 **Masalah yang ingin diselesaikan:**  
-`[Jelaskan masalah yang ingin diselesaikan oleh aplikasi]`
+`[User seringkali kesulitan dalam memanajemen keuangan mereka. Aplikasi ini membantu mereka menggambaran arah keuangan mereka]`
 
 ## 2. Kebutuhan Aplikasi
 
 Fitur utama aplikasi:
 
-1. `[Fitur utama 1]`
-2. `[Fitur utama 2]`
-3. `[Fitur utama 3]`
-4. `[Fitur tambahan, jika ada]`
+1. `[Autentikasi: Register, login dan logout]`
+2. `[Memanajemen transaksi: menambah, melihat, mengedit, menghapus catatan keuangan]`
+3. `[Ringkasan keuangan: menampilkan total pemasukan, pengeluaran dan saldo bersih]`
+4. `[Kategori dan filter: mengelompokkan transaksi berdasarkan kategori & label dan memfilternya dengan tanggal]`
 
 **Halaman aplikasi:**
 
-- Login
-- Register
-- Main Page — My Notes
-
-Pada Main Page, pengguna dapat melihat daftar catatan, membuat catatan, mengedit, menghapus, dan logout.
+- Login & Register.
+- Dashboard - Ringkasan keuangan, daftar transaksi dan visualisasi sederhana.
+- Transactions detail - Daftar seluruh transaksi dengan fitur search, filter, tambah, edit, dan hapus.
 
 ## 3. Pilihan Teknologi
 
@@ -42,28 +40,28 @@ Pilih satu opsi untuk setiap komponen yang diperlukan. Sesuaikan dengan kebutuha
 ### A. Backend Framework
 
 - [ ] 1. Go Standard Library (`net/http`)
-- [ ] 2. Gin
+- [x] 2. Gin
 - [ ] 3. Lainnya sebutkan
 
-**Pilihan saya:** `[Isi nomor pilihan]`
+**Pilihan saya:** `[2. Gin]`
 
 ### B. ORM (Object-Relational Mapping)
 
 - [ ] 1. Tidak menggunakan ORM (SQL manual)
-- [ ] 2. GORM
+- [x] 2. GORM
 - [ ] 3. Lainnya sebutkan
 
-**Pilihan saya:** `[Isi nomor pilihan]`
+**Pilihan saya:** `[2. GORM]`
 
-**Ketentuan:** `[Isi ketentuannya contoh memakai GORM atau menggunakan  SQL manual dengan library pgx]`
+**Ketentuan:** `[memakai GORM]`
 
 ### C. Database
 
-- [ ] 1. PostgreSQL
+- [x] 1. PostgreSQL
 - [ ] 2. MySQL
 - [ ] 3. SQLite
 
-**Pilihan saya:** `[Isi nomor pilihan]`
+**Pilihan saya:** `[2. PostgreSQL]`
 
 ### D. Frontend
 
@@ -71,16 +69,16 @@ Pilih satu opsi untuk setiap komponen yang diperlukan. Sesuaikan dengan kebutuha
 - [ ] 2. React
 - [ ] 3. Vue
 
-**Pilihan saya:** `[Isi nomor pilihan]`
+**Pilihan saya:** `[1. HTML, CSS, JS murni]`
 
 ### E. Sistem Autentikasi
 
 - [ ] 1. Session
 - [x] 2. JWT
 
-**Pilihan saya:** `[Isi nomor pilihan]`
+**Pilihan saya:** `[2. JWT]`
 
-**Ketentuan:** `[Isi ketentuan untuk Auth. contoh: Gunakan session berbasis server untuk mengelola status login pengguna atau Gunakan JWT berbasis server untuk mengelola status login pengguna.]`
+**Ketentuan:** `[Gunakan JWT berbasis server untuk mengelola status login pengguna.]`
 
 ### F. Penyimpanan Sesi atau Token
 
@@ -88,7 +86,7 @@ Pilih satu opsi untuk setiap komponen yang diperlukan. Sesuaikan dengan kebutuha
 - [x] 2. localStorage
 - [ ] 3. Tidak diperlukan
 
-**Pilihan saya:** 1
+**Pilihan saya:** `[2. LocalStorage]`
 
 **Ketentuan:** Simpan ID session dalam localStorage dengan pengaturan keamanan yang sesuai.
 
@@ -97,7 +95,7 @@ Pilih satu opsi untuk setiap komponen yang diperlukan. Sesuaikan dengan kebutuha
 - [x] 1. REST API
 - [ ] 2. Tidak membutuhkan API terpisah
 
-**Pilihan saya:** 1
+**Pilihan saya:** `[1. Rest API]`
 
 **Ketentuan:** Backend menyediakan REST API untuk autentikasi dan pengelolaan catatan. Frontend mengakses API menggunakan `fetch()`.
 
@@ -106,7 +104,7 @@ Pilih satu opsi untuk setiap komponen yang diperlukan. Sesuaikan dengan kebutuha
 - [x] 1. Git
 - [ ] 2. Tidak menggunakan Git
 
-**Pilihan saya:** 1
+**Pilihan saya:** `[1. Git]`
 
 ## 4. Detail Autentikasi
 
@@ -120,9 +118,9 @@ Pilih satu opsi untuk setiap komponen yang diperlukan. Sesuaikan dengan kebutuha
 
 **Aturan akses:**
 
-1. Pengguna harus login untuk mengakses catatan.
+1. Pengguna harus login untuk mengakses catatan keuangan.
 2. Pengguna yang belum login hanya dapat mengakses halaman Login dan Register.
-3. Setiap catatan harus memiliki `user_id` sebagai pemiliknya.
+3. Setiap catatan keuangan harus memiliki `user_id` sebagai pemiliknya.
 4. Backend harus memeriksa kepemilikan catatan pada setiap operasi melihat detail, mengedit, dan menghapus.
 5. Pengguna tidak boleh melihat atau mengubah catatan pengguna lain, termasuk dengan mengubah ID pada URL atau request API.
 6. Password harus disimpan dalam bentuk hash menggunakan algoritma yang sesuai, bukan sebagai teks biasa.
@@ -152,13 +150,13 @@ SESSION_SECRET=replace-with-a-random-secret
 
 ## 6. Batasan Pengembangan (BOLEH DIUBAH SESUAI KEINGINAN PESERTA PELATIHAN)
 
-- [ ] Struktur folder sederhana.
-- [ ] Kode mudah dipahami pemula.
-- [ ] Tidak menambahkan teknologi di luar pilihan tanpa persetujuan.
-- [ ] Memisahkan frontend dan backend.
-- [ ] Menggunakan environment variable untuk konfigurasi.
+- [x] Struktur folder sederhana.
+- [x] Kode mudah dipahami pemula.
+- [x] Tidak menambahkan teknologi di luar pilihan tanpa persetujuan.
+- [x] Memisahkan frontend dan backend.
+- [x] Menggunakan environment variable untuk konfigurasi.
 - [ ] Membuat pengujian dasar.
-- [ ] Menjelaskan kode dan perubahan yang dibuat AI.
+- [x] Menjelaskan kode dan perubahan yang dibuat AI.
 
 **Batasan tambahan:**
 `[Isi jika ada]`
@@ -167,17 +165,16 @@ SESSION_SECRET=replace-with-a-random-secret
 
 Tuliskan fitur yang tidak perlu dibuat agar ruang lingkup proyek tetap jelas.
 
-- `[Fitur yang tidak dibutuhkan 1]`
-- `[Fitur yang tidak dibutuhkan 2]`
+- `[Integrasi bank dan pembayaran: seluruh pencatatan dilakukan manual oleh user]`
 
 ## 7. Pemeriksaan Sebelum Vibe Coding (BOLEH DIUBAH SESUAI KEINGINAN PESERTA PELATIHAN)
 
-- [ ] Nama dan tujuan aplikasi sudah jelas.
-- [ ] Fitur utama sudah ditentukan.
-- [ ] Pilihan teknologi sudah diisi.
-- [ ] Kebutuhan autentikasi sudah ditentukan.
-- [ ] Batasan proyek sudah ditentukan.
-- [ ] Penggunaan `.env` dan `DATABASE_URL` sudah ditentukan.
+- [x] Nama dan tujuan aplikasi sudah jelas.
+- [x] Fitur utama sudah ditentukan.
+- [x] Pilihan teknologi sudah diisi.
+- [x] Kebutuhan autentikasi sudah ditentukan.
+- [x] Batasan proyek sudah ditentukan.
+- [x] Penggunaan `.env` dan `DATABASE_URL` sudah ditentukan.
 
 **Status spesifikasi:** Siap untuk diperiksa dan disetujui sebelum implementasi.
 

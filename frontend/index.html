@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuan't — Kelola Keuangan Pribadi</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/api.js"></script>
+  <script>
+    (function() {
+      var token = localStorage.getItem("cuant_token");
+      if (token) {
+        window.location.replace("dashboard.html");
+      } else {
+        window.location.replace("login.html");
+      }
+    })();
+  </script>
+</head>
+<body style="display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #f8fafc; color: #64748b; font-family: sans-serif;">
+  <div style="text-align: center;">
+    <div style="font-size: 2rem; margin-bottom: 0.5rem; font-weight: 800; color: #2563eb;">₵ Cuan't</div>
+    <p>Mengalihkan halaman...</p>
+  </div>
+</body>
+</html>

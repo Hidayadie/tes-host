@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Cuan't</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="dashboard.html" class="brand">
+        <span class="brand-icon">₵</span>
+        <span>Cuan't</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+        <li><a href="transactions.html" class="nav-link">Semua Transaksi</a></li>
+      </ul>
+
+      <div class="nav-user">
+        <div class="user-badge">
+          <div class="user-avatar" id="user-avatar">U</div>
+          <span id="user-name">Pengguna</span>
+        </div>
+        <button id="btn-logout" class="btn btn-secondary btn-sm" title="Keluar dari akun">
+          Keluar
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Ringkasan Keuangan</h1>
+        <p class="page-subtitle">Pantau arus kas dan alokasi pengeluaran Anda</p>
+      </div>
+      <button id="btn-open-modal" class="btn btn-primary">
+        + Catat Transaksi
+      </button>
+    </div>
+
+    <!-- Summary Stat Cards -->
+    <div class="stats-grid">
+      <!-- Net Balance -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Saldo Bersih</span>
+          <div class="stat-icon balance">💳</div>
+        </div>
+        <div class="stat-value" id="stat-balance">Rp 0</div>
+        <div class="stat-desc">Total akumulasi saldo kas</div>
+      </div>
+
+      <!-- Total Income -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Total Pemasukan</span>
+          <div class="stat-icon income">📈</div>
+        </div>
+        <div class="stat-value income" id="stat-income">Rp 0</div>
+        <div class="stat-desc">Akumulasi uang masuk</div>
+      </div>
+
+      <!-- Total Expense -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Total Pengeluaran</span>
+          <div class="stat-icon expense">📉</div>
+        </div>
+        <div class="stat-value expense" id="stat-expense">Rp 0</div>
+        <div class="stat-desc">Akumulasi pengeluaran</div>
+      </div>
+    </div>
+
+    <!-- Analytics & Recent Transactions Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem;">
+      <!-- Category Breakdown Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Alokasi Pengeluaran per Kategori</h2>
+        </div>
+        <div id="category-bars-container" class="category-bars">
+          <!-- Filled dynamically via dashboard.js -->
+          <div class="empty-state" style="padding: 1.5rem 0;">
+            <p class="empty-desc">Belum ada data pengeluaran untuk dianalisis.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Transactions Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Transaksi Terakhir</h2>
+          <a href="transactions.html" class="btn btn-secondary btn-sm">Lihat Semua</a>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Keterangan</th>
+                <th>Kategori</th>
+                <th style="text-align: right;">Nominal</th>
+              </tr>
+            </thead>
+            <tbody id="recent-transactions-tbody">
+              <!-- Filled dynamically via dashboard.js -->
+              <tr>
+                <td colspan="4" class="empty-state">
+                  <p class="empty-desc">Belum ada transaksi tercatat.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Transaction Modal -->
+  <div id="transaction-modal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Tambah Transaksi Baru</h3>
+        <button type="button" class="modal-close" id="btn-close-modal">&times;</button>
+      </div>
+
+      <form id="transaction-form">
+        <div class="modal-body">
+          <div id="modal-alert" class="alert alert-danger" style="display: none;"></div>
+
+          <!-- Type Toggle -->
+          <div class="form-group">
+            <label class="form-label">Tipe Transaksi</label>
+            <div class="type-toggle-group">
+              <button type="button" class="type-toggle-btn active expense" data-type="expense" id="btn-type-expense">
+                Pengeluaran
+              </button>
+              <button type="button" class="type-toggle-btn" data-type="income" id="btn-type-income">
+                Pemasukan
+              </button>
+            </div>
+            <input type="hidden" id="trans-type" value="expense">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="trans-title">Judul / Keterangan</label>
+            <input 
+              type="text" 
+              id="trans-title" 
+              class="form-input" 
+              placeholder="Contoh: Makan Siang, Beli Buku, Gaji Bulanan" 
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="trans-amount">Nominal (Rp)</label>
+            <input 
+              type="number" 
+              id="trans-amount" 
+              class="form-input" 
+              placeholder="Contoh: 50000" 
+              min="1" 
+              step="any"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="trans-category">Kategori</label>
+            <select id="trans-category" class="form-select" required>
+              <!-- Filled dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="trans-date">Tanggal</label>
+            <input 
+              type="date" 
+              id="trans-date" 
+              class="form-input" 
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="trans-desc">Catatan Tambahan (Opsional)</label>
+            <textarea 
+              id="trans-desc" 
+              class="form-textarea" 
+              placeholder="Tambahkan detail catatan jika ada..."
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-modal">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btn-save-transaction">Simpan Transaksi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

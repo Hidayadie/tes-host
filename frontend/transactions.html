@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semua Transaksi — Cuan't</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="dashboard.html" class="brand">
+        <span class="brand-icon">₵</span>
+        <span>Cuan't</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="transactions.html" class="nav-link active">Semua Transaksi</a></li>
+      </ul>
+
+      <div class="nav-user">
+        <div class="user-badge">
+          <div class="user-avatar" id="user-avatar">U</div>
+          <span id="user-name">Pengguna</span>
+        </div>
+        <button id="btn-logout" class="btn btn-secondary btn-sm" title="Keluar dari akun">
+          Keluar
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Manajemen Transaksi</h1>
+        <p class="page-subtitle">Cari, saring, edit, dan kelola seluruh catatan transaksi keuangan Anda</p>
+      </div>
+      <button id="btn-open-add" class="btn btn-primary">
+        + Catat Transaksi Baru
+      </button>
+    </div>
+
+    <!-- Filter & Search Toolbar -->
+    <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+      <div class="filter-toolbar" style="margin-bottom: 0; background: transparent; border: none; padding: 0;">
+        <!-- Search -->
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="filter-search" 
+            class="form-input" 
+            placeholder="Cari transaksi..."
+          >
+        </div>
+
+        <!-- Type Filter -->
+        <div style="flex: 0 1 150px;">
+          <select id="filter-type" class="form-select">
+            <option value="">Semua Tipe</option>
+            <option value="expense">Pengeluaran</option>
+            <option value="income">Pemasukan</option>
+          </select>
+        </div>
+
+        <!-- Category Filter -->
+        <div style="flex: 0 1 180px;">
+          <select id="filter-category" class="form-select">
+            <option value="">Semua Kategori</option>
+            <!-- Loaded dynamically -->
+          </select>
+        </div>
+
+        <!-- Date Range Filter -->
+        <div style="flex: 0 1 150px;">
+          <input 
+            type="date" 
+            id="filter-start-date" 
+            class="form-input" 
+            title="Dari Tanggal"
+          >
+        </div>
+
+        <div style="flex: 0 1 150px;">
+          <input 
+            type="date" 
+            id="filter-end-date" 
+            class="form-input" 
+            title="Sampai Tanggal"
+          >
+        </div>
+
+        <!-- Sort Filter -->
+        <div style="flex: 0 1 170px;">
+          <select id="filter-sort" class="form-select">
+            <option value="date_desc">Tanggal Terkini</option>
+            <option value="date_asc">Tanggal Terlama</option>
+            <option value="amount_desc">Nominal Tertinggi</option>
+            <option value="amount_asc">Nominal Terendah</option>
+          </select>
+        </div>
+
+        <!-- Reset Button -->
+        <button id="btn-reset-filter" class="btn btn-secondary" title="Reset filter">
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- Transactions Data Table Card -->
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Daftar Transaksi (<span id="total-count">0</span>)</h2>
+        <div id="filter-summary-badge" style="font-size: 0.85rem; color: var(--text-muted);"></div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 130px;">Tanggal</th>
+              <th>Judul & Catatan</th>
+              <th style="width: 170px;">Kategori</th>
+              <th style="width: 120px;">Tipe</th>
+              <th style="width: 160px; text-align: right;">Nominal</th>
+              <th style="width: 130px; text-align: center;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="transactions-tbody">
+            <!-- Rendered dynamically -->
+            <tr>
+              <td colspan="6" class="empty-state">
+                <p class="empty-desc">Memuat data transaksi...</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add / Edit Transaction Modal -->
+  <div id="transaction-modal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Catat Transaksi</h3>
+        <button type="button" class="modal-close" id="btn-close-modal">&times;</button>
+      </div>
+
+      <form id="transaction-form">
+        <input type="hidden" id="trans-id" value="">
+        <input type="hidden" id="trans-type" value="expense">
+
+        <div class="modal-body">
+          <div id="modal-alert" class="alert alert-danger" style="display: none;"></div>
+
+          <!-- Type Toggle -->
+          <div class="form-group">
+            <label class="form-label">Tipe Transaksi</label>
+            <div class="type-toggle-group">
+              <button type="button" class="type-toggle-btn active expense" data-type="expense" id="btn-type-expense">
+                Pengeluaran
+              </button>
+              <button type="button" class="type-toggle-btn" data-type="income" id="btn-type-income">
+                Pemasukan
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="trans-title">Judul Transaksi</label>
+            <input 
+              type="text" 
+              id="trans-title" 
+              class="form-input" 
+              placeholder="Contoh: Belanja Bulanan, Bayar Listrik" 
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="trans-amount">Nominal (Rp)</label>
+            <input 
+              type="number" 
+              id="trans-amount" 
+              class="form-input" 
+              placeholder="0" 
+              min="1" 
+              step="any"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="trans-category">Kategori</label>
+            <select id="trans-category" class="form-select" required>
+              <!-- Filled dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="trans-date">Tanggal</label>
+            <input 
+              type="date" 
+              id="trans-date" 
+              class="form-input" 
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="trans-desc">Catatan Tambahan (Opsional)</label>
+            <textarea 
+              id="trans-desc" 
+              class="form-textarea" 
+              placeholder="Keterangan rincian atau label..."
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-modal">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btn-save-transaction">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="delete-modal" class="modal-backdrop">
+    <div class="modal" style="max-width: 420px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Hapus Transaksi</h3>
+        <button type="button" class="modal-close" id="btn-close-delete-modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p style="margin-bottom: 0.5rem;">Apakah Anda yakin ingin menghapus catatan transaksi ini?</p>
+        <p id="delete-item-title" style="font-weight: 700; color: var(--text-main); font-size: 1.05rem;"></p>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Tindakan ini tidak dapat dibatalkan.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-delete">Batal</button>
+        <button type="button" class="btn btn-danger" id="btn-confirm-delete">Ya, Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/transactions.js"></script>
+</body>
+</html>
